@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <div id="main">
+
+            <span class="text-danger">{{errorMessage}}</span>
+            <h3><span v-if="messageResult.length > 0">Inserted message id: {{messageResult}}</span></h3>
+
+            <div class="form-group">
+                <label for="apiUrl">API url:</label>
+                <input v-model="apiUrl" id="apiUrl" name="apiUrl" type="text" class="form-control" />
+            </div>
+
+            <input v-on:click.prevent="sendMessage" :disabled="!canSendMessage" class="btn btn-sm btn-success" type="submit"  />
+
+            <div class="form-group">
+                <label for="subject">Subject:</label>
+                <input v-model="subjectText" id="subject" name="subject" type="text" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="body">Body:</label>
+                <textarea v-model="bodyText" id="body" name="body" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="usr">Select recipients:</label>
+
+            <div id="recipient-list">
+                <form v-on:submit.prevent="addNewRecipient">
+                    <label for="new-id">Add recipient id:</label>
+                    <input v-model="newRecipientId" id="new-id" type="number" />
+                    <button :disabled="!canAddRecipient" class="btn btn-sm btn-success">Add</button>
+                </form>
+                <ul>
+                    <li is="recipient-item"
+                        v-for="recipient in recipients"
+                        v-bind:key="recipient.id"
+                        v-bind:recipient="recipient.recipientId"
+                        v-on:remove="recipients.splice(index, 1)"></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <scripts>
+        <script src="./js/main.js"></script>
+    </scripts>
+</body>
+</html>
